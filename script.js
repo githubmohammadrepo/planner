@@ -38,14 +38,15 @@ let v = new Vue({
         //   response.body.forEach(element => {
         //     element.edit = false;
         //   });
-        response.body.forEach(element => {
-             this.titles.push(element[0]);
-         });
+        // response.body.forEach(element => {
+        //      this.titles.push(element[0]);
+        //  });
 
 
-         response.body.forEach(element => {
-            this.info.push(element['read_time']);
-        });
+        //  response.body.forEach(element => {
+        //     this.info.push(element['read_time']);
+        // });
+        this.info = response.body;
 
           console.log(response)
         //   this.info = response.body;
@@ -54,6 +55,17 @@ let v = new Vue({
           console.log(response)
           // error callback
         });
+    // GET /someUrl
+        this.$http.get('http://localhost/plan/show.php').then(response => {
   
+         this.titles = response.body;
+
+          console.log(response)
+        //   this.info = response.body;
+        }, response => {
+            console.log('error')
+          console.log(response)
+          // error callback
+        });
     }
   });

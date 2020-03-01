@@ -29,13 +29,13 @@
             <thead>
               <tr>
                 <th scope="col" >#</th>
-                <th scope="col" v-for="(title,index) in titles" :key="index">{{title}}</th>
+                <th scope="col" v-for="(title,index) in titles" :key="index">{{title.title}}</th>
               </tr>
             </thead>
             <tbody>
               <tr >
-                <th scope="row">1</th>
-                <td @dblclick="doubleClickForEdit(item)" v-for="(title,index) in info" :key="index">{{title}}
+                <th scope="row">#</th>
+                <td @dblclick="doubleClickForEdit(item)" v-for="(item,index) in info" :key="index">{{item[0].read_time}}
                   <!-- <input v-if="item.edit"  type="email" class="form-control w-20 text-center" width="5"  id="time" aria-describedby="read_time">
                   <span v-else>{{ </span> -->
                 </td>

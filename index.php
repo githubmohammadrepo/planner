@@ -1,5 +1,5 @@
 <?php
-// header("Content-Type: application/json");
+header("Content-Type: application/json");
 
 require_once('./vendor/autoload.php');
 use Carbon\Carbon;
@@ -24,10 +24,11 @@ $last = $db->last();
 
 $cfirst = Carbon::create($first);
 $clast = Carbon::create($last);
-echo '<pre>';
 $diff = ($clast->dayOfYear() - $cfirst->dayOfYear()); 
 $loop = $cfirst;
 
+
+$allInfo = [];
 for($i=0;$i<=$diff; $i++){
     
     $dloop = $loop->copy()->subDays(1);
@@ -39,7 +40,10 @@ for($i=0;$i<=$diff; $i++){
     $aloop->minute = 00;
     $aloop->second = 1;;
 
-    print_r($db->Read($dloop, $aloop));
-    echo '<hr>';
+   array_push($allInfo,($db->Read($dloop, $aloop)));
+    
     $loop = $loop->copy()->addDays(1);
 }
+
+
+print_r(json_encode($allInfo));
