@@ -1,0 +1,12 @@
+{
+    "name": "mohammad/plan",
+    "authors": [
+        {
+            "name": "Mohammad Ravand",
+            "email": "githubmohammadrepo@gmail.com"
+        }
+    ],
+    "require": {
+        "nesbot/carbon": "^2.30"
+    }
+}

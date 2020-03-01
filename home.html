@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    
+    <!-- Load required Bootstrap and BootstrapVue CSS -->
+    <link type="text/css" rel="stylesheet" href="./requrie/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="./requrie/bootstrap-vue.css" />
+    
+    <!-- Load polyfills to support older browsers -->
+    <script src="//polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver" crossorigin="anonymous"></script>
+    
+    <!-- Load Vue followed by BootstrapVue -->
+    <script src="./vuejs.js"></script>
+    <script src="./requrie/bootstrap-vue.js"></script>
+    
+    <!-- Load the following for BootstrapVueIcons support -->
+    <script src="./requrie/bootstrap-vue-icon.js"></script>
+</head>
+<body>
+
+    <div class="container" id="app">
+
+
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col" >#</th>
+                <th scope="col" v-for="(title,index) in titles" :key="index">{{title}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr >
+                <th scope="row">1</th>
+                <td @dblclick="doubleClickForEdit(item)" v-for="(title,index) in info" :key="index">{{title}}
+                  <!-- <input v-if="item.edit"  type="email" class="form-control w-20 text-center" width="5"  id="time" aria-describedby="read_time">
+                  <span v-else>{{ </span> -->
+                </td>
+               
+              </tr>
+           
+            </tbody>
+          </table>
+    </div>
+    
+    <script src="./requrie/vue-resouce.js"></script>
+    <!-- custome script -->
+    <script src="./script.js"></script>
+</body>
+</html>
