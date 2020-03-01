@@ -99,7 +99,7 @@ class Databasep
             try {
 
                 // Prepare the statement
-                $stmt =  $this->pdo_conn->prepare("Select title From titles  ");
+                $stmt =  $this->pdo_conn->prepare("Select id,title From titles  ");
     
                 // You can also use bindparams, I like to use execute and pass and array so it is shorter
                 $stmt->execute(array());

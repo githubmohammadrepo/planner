@@ -1,11 +1,12 @@
 <?php
-header("Content-Type: application/json");
+// header("Content-Type: application/json");
 
 require_once('./vendor/autoload.php');
 use Carbon\Carbon;
 require_once ('./Database.php');
 require_once ('./Task.php');
 
+echo '<pre>';
 
 $values = array(
     'title_id' => 2,
@@ -46,4 +47,4 @@ for($i=0;$i<=$diff; $i++){
 }
 
 
-print_r(json_encode($allInfo));
+print_r(($allInfo));
