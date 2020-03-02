@@ -163,7 +163,11 @@ class Databasep
         ///////// End of data collection ///
         // error_reporting(E_ERROR | E_PARSE | E_CORE_ERROR);
         // $sql = UPDATE `tasks` SET `title_id`=3,`read_time`=4,`created`=now() WHERE id=12
-        $sql=$this->pdo_conn->prepare("UPDATE `tasks` SET `title_id`=:title_id,`read_time`=:read_time,`created`=now() WHERE id=:id");
+        if($id==0){
+            $sql=$this->pdo_conn->prepare("UPDATE `tasks` SET `title_id`=:title_id,`read_time`=:read_time,`created`=now() WHERE id=:id");
+        }else{
+            $sql=$this->pdo_conn->prepare("UPDATE `tasks` SET `title_id`=:title_id,`read_time`=:read_time,`created`=now() WHERE id=:id");
+        }
         $sql->bindParam(':title_id', $title_id,PDO::PARAM_INT, 5);
         $sql->bindParam(':read_time', $read_time,PDO::PARAM_INT, 5);
         $sql->bindParam(':id', $id, PDO::PARAM_INT, 5);
@@ -178,21 +182,30 @@ class Databasep
         }
     }
 
-    public function Insert($values)
+    public function Insert($title_id,$read_time)
     {
         $sql = "INSERT INTO tasks ( title_id,read_time ) VALUES (:title_id, :read_time)";
         $pdo_statement = $this->pdo_conn->prepare($sql);
-        print_r($pdo_statement);
         $result = $pdo_statement->execute(
             array(
-                ':title_id' => htmlspecialchars(trim($values['title_id'])),
-                ':read_time' => htmlspecialchars(trim($values['read_time'])),
+                ':title_id' => htmlspecialchars(trim($title_id)),
+                ':read_time' => htmlspecialchars(trim($read_time)),
             )
         );
         // $result = $pdo_statement->execute(array(':read_time' => htmlspecialchars(trim($_POST['read_time'])), ':description' => $_POST['description'], ':post_at' => $_POST['post_at']));
         if (!empty($result)) {
             // header('location:index.php');
-            echo 'inserted';
+            $stmt= $this->pdo_conn->prepare("SELECT read_time FROM `tasks` Order By id DESC LIMIT 1;");
+            // You can also use bindparams, I like to use execute and pass and array so it is shorter
+            $stmt->execute(array());
+            if ($stmt->RowCount() == 0) {
+                // Do stuff when no results are found (without an error)
+                echo 'something';
+            } else {
+                $Results = $stmt->FetchAll(PDO::FETCH_ASSOC);
+                print_r(json_encode($Results[0]));
+            }
+        
         } else {
             echo 'not inserted';
         }

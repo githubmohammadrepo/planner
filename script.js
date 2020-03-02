@@ -30,7 +30,6 @@ let v = new Vue({
 
     editHourReading: function (hour) {
       hour.edit = !hour.edit;
-      console.log(hour)
 
     },
     saveHoure(item,hour) {
@@ -43,14 +42,13 @@ let v = new Vue({
         title_id: hour.title_id,
         read_time: this.inputHour
       };
-      console.log('data', data)
       this.$http.post('http://localhost/plan/update.php', data,{
         emulateJSON: true
     }).then(function (response) {
         hour.edit = false;
 
         this.loading = false;
-
+        console.log('res',response.body)
         itemIndex.read_time =(response.body.read_time);
       }, function (response) {
         console.log('Error!:', response.data);
@@ -59,7 +57,6 @@ let v = new Vue({
     
     },
     showHourTime: function (hour) {
-      console.log((hour.read_time != null) && (hour.edit == true))
       return (hour.read_time != null) && (hour.edit == true)
     },
 
@@ -67,7 +64,6 @@ let v = new Vue({
       let sum=0;
       for(let i=0;i<item.length;i++){
         if(item[i].read_time !=null){
-          console.log(typeof item[i].read_time)
           sum += parseInt(item[i].read_time);
         }
       }
@@ -122,7 +118,7 @@ let v = new Vue({
             // }else{
             // {0:'',id: index,read_time:null,created:null};
             // }
-            outer.splice(index, 0, { 0: '', id: index + 1, read_time: null, created: null, edit: false })
+            outer.splice(index, 0, { 0: '', id: 0, read_time: null, created: null, edit: false })
           }
 
           outer[index].edit = false;
@@ -142,7 +138,7 @@ let v = new Vue({
             //push current object in outer to spam array
             if (typeof outer[index] == 'undefined') {
               // console.log('unsifined')
-              outer.splice(index, 0, { 0: '', id: index + 1, read_time: null, created: null, edit: false })
+              outer.splice(index, 0, { 0: '', id: 0, read_time: null, created: null, edit: false })
             }
             spam.push(outer[index]);
 
@@ -178,7 +174,7 @@ let v = new Vue({
             }
 
             if (!isChanged) {
-              outer[index] = { 0: '', id: index + 1, read_time: null, created: null, edit: false };
+              outer[index] = { 0: '', id: 0, read_time: null, created: null, edit: false };
             }
 
           }
