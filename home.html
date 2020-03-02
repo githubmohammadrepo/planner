@@ -21,6 +21,16 @@
 
   <!-- Load the following for BootstrapVueIcons support -->
   <script src="./requrie/bootstrap-vue-icon.js"></script>
+
+  <!-- custome style -->
+  <style>
+   input{
+      width: 10px !important;
+    }
+    .focusid{
+      nav-index: 1;
+    }
+  </style>
 </head>
 
 <body>
@@ -39,9 +49,19 @@
             <tr v-for="(item,index) in info" :key="index">
               <th scope="row">#</th>
 
-              <td @dblclick="" v-for="(hour,index) in item" :key="index">
-                <span v-if="hour.read_time">{{hour.read_time}}</span>
-                <span v-else> - </span>
+              <td v-for="(hour,index) in item" :key="index">
+                <span  @dblclick="editHourReading(hour)" >
+                  <!-- 
+                  <button class="brn-brn-info" v-if="hour.edit">hi</button> -->
+
+                  <div class="input-group mb-3">
+                    <input v-show="hour.edit" type="text"  class="form-control input text-center" :class="{focusid: focus}" width="5" :placeholder="hour.read_time" aria-label="hour" aria-describedby="basic-addon1">
+                    <span v-if="(hour.edit==true)" class="btn btn-primary" id="basic-addon1">save</span>
+                    <span v-if="(hour.read_time && !hour.edit)" class="btn btn-info" id="basic-addon1">{{hour.read_time}}</span>
+                    <span v-if="(!hour.read_time && !hour.edit)" class="btn btn-danger"> &dash; </span>
+
+                  </div>
+                </span>
                 <!-- <input v-if="item.edit"  type="email" class="form-control w-20 text-center" width="5"  id="time" aria-describedby="read_time">
                 <span v-else>{{ </span> -->
               </td>

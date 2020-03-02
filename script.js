@@ -8,6 +8,7 @@ let v = new Vue({
     edit: false,
     info: [],
     titles: [],
+    focus:false
   },
   methods: {
     doubleClickForEdit: function (item) {
@@ -23,12 +24,24 @@ let v = new Vue({
       }
       //  console.log(root);
       return 1;
+    },
+
+    editHourReading:function(hour){
+      hour.edit = !hour.edit;
+      
+    },
+    showHourTime: function(hour){
+      console.log((hour.read_time !=null) && (hour.edit == true))
+      return (hour.read_time !=null) && (hour.edit == true)
     }
   },
   computed: {
+    
+  },
+  
+  mounted: function() {
 
   },
-
   created: function () {
 
     // GET /someUrl
@@ -69,10 +82,11 @@ let v = new Vue({
             // }else{
             // {0:'',id: index,read_time:null,created:null};
             // }
-
-            outer.splice(index, 0, { 0: '', id: index + 1, read_time: null, created: null })
-
+            outer.splice(index, 0, { 0: '', id: index + 1, read_time: null, created: null ,edit:false})
           }
+
+          outer[index].edit = false;
+
         }
         let spam = Array();
         // console.log('tite',this.titles)
@@ -86,7 +100,7 @@ let v = new Vue({
             //push current object in outer to spam array
             if (typeof outer[index] == 'undefined') {
               // console.log('unsifined')
-              outer.splice(index, 0, { 0: '', id: index + 1, read_time: null, created: null })
+              outer.splice(index, 0, { 0: '', id: index + 1, read_time: null, created: null,edit:false })
             }
             spam.push(outer[index]);
 
@@ -122,7 +136,7 @@ let v = new Vue({
             }
 
             if (!isChanged) {
-              outer[index] = { 0: '', id: index + 1, read_time: null, created: null };
+              outer[index] = { 0: '', id: index + 1, read_time: null, created: null,edit: false };
             }
 
           }
