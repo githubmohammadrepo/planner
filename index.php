@@ -6,7 +6,6 @@ use Carbon\Carbon;
 require_once ('./Database.php');
 require_once ('./Task.php');
 
-echo '<pre>';
 
 $values = array(
     'title_id' => 2,
@@ -47,4 +46,4 @@ for($i=0;$i<=$diff; $i++){
 }
 
 
-print_r(($allInfo));
+print_r(json_encode($allInfo));
