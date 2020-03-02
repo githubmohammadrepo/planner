@@ -55,8 +55,8 @@
                   <button class="brn-brn-info" v-if="hour.edit">hi</button> -->
 
                   <div class="input-group mb-3">
-                    <input v-show="hour.edit" type="text"  class="form-control input text-center" :class="{focusid: focus}" width="5" :placeholder="hour.read_time" aria-label="hour" aria-describedby="basic-addon1">
-                    <span v-if="(hour.edit==true)" class="btn btn-primary" id="basic-addon1">save</span>
+                    <input v-show="hour.edit" v-model="inputHour" type="text"  class="form-control input text-center" :class="{focusid: focus}" width="5" :placeholder="hour.read_time" aria-label="hour" aria-describedby="basic-addon1">
+                    <span v-if="(hour.edit==true)" @click="saveHoure(item,hour)" class="btn btn-primary" id="basic-addon1">save</span>
                     <span v-if="(hour.read_time && !hour.edit)" class="btn btn-info" id="basic-addon1">{{hour.read_time}}</span>
                     <span v-if="(!hour.read_time && !hour.edit)" class="btn btn-danger"> &dash; </span>
 

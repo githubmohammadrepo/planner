@@ -8,7 +8,8 @@ let v = new Vue({
     edit: false,
     info: [],
     titles: [],
-    focus:false
+    focus: false,
+    inputHour: null
   },
   methods: {
     doubleClickForEdit: function (item) {
@@ -26,20 +27,46 @@ let v = new Vue({
       return 1;
     },
 
-    editHourReading:function(hour){
+    editHourReading: function (hour) {
       hour.edit = !hour.edit;
-      
+      console.log(hour)
+
     },
-    showHourTime: function(hour){
-      console.log((hour.read_time !=null) && (hour.edit == true))
-      return (hour.read_time !=null) && (hour.edit == true)
+    saveHoure(item,hour) {
+      let itemIndex = this.info[this.info.indexOf(item)][this.info[this.info.indexOf(item)].indexOf(hour)];
+      console.log('Before_itemIndex',itemIndex)
+      // console.log(item)
+      // console.log(hour)
+      let data = {
+        id: hour.id,
+        title_id: hour.title_id,
+        read_time: this.inputHour
+      };
+      console.log('data', data)
+      this.$http.post('http://localhost/plan/update.php', data,{
+        emulateJSON: true
+    }).then(function (response) {
+        hour.edit = false;
+
+        this.loading = false;
+
+        itemIndex.read_time =(response.body.read_time);
+      }, function (response) {
+        console.log('Error!:', response.data);
+        this.loading = false;
+      });
+    
+    },
+    showHourTime: function (hour) {
+      console.log((hour.read_time != null) && (hour.edit == true))
+      return (hour.read_time != null) && (hour.edit == true)
     }
   },
   computed: {
-    
+
   },
-  
-  mounted: function() {
+
+  mounted: function () {
 
   },
   created: function () {
@@ -82,10 +109,12 @@ let v = new Vue({
             // }else{
             // {0:'',id: index,read_time:null,created:null};
             // }
-            outer.splice(index, 0, { 0: '', id: index + 1, read_time: null, created: null ,edit:false})
+            outer.splice(index, 0, { 0: '', id: index + 1, read_time: null, created: null, edit: false })
           }
 
           outer[index].edit = false;
+
+          
 
         }
         let spam = Array();
@@ -100,7 +129,7 @@ let v = new Vue({
             //push current object in outer to spam array
             if (typeof outer[index] == 'undefined') {
               // console.log('unsifined')
-              outer.splice(index, 0, { 0: '', id: index + 1, read_time: null, created: null,edit:false })
+              outer.splice(index, 0, { 0: '', id: index + 1, read_time: null, created: null, edit: false })
             }
             spam.push(outer[index]);
 
@@ -136,11 +165,12 @@ let v = new Vue({
             }
 
             if (!isChanged) {
-              outer[index] = { 0: '', id: index + 1, read_time: null, created: null,edit: false };
+              outer[index] = { 0: '', id: index + 1, read_time: null, created: null, edit: false };
             }
 
           }
           // console.log('spam',spam)
+          outer[index].title_id = index+1;
         }
         // console.log('888888888888888');
         for (const key in spam) {
