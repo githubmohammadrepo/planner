@@ -9,7 +9,8 @@ let v = new Vue({
     info: [],
     titles: [],
     focus: false,
-    inputHour: null
+    inputHour: null,
+    count: 0
   },
   methods: {
     doubleClickForEdit: function (item) {
@@ -60,6 +61,18 @@ let v = new Vue({
     showHourTime: function (hour) {
       console.log((hour.read_time != null) && (hour.edit == true))
       return (hour.read_time != null) && (hour.edit == true)
+    },
+
+    sumHour: function(item){
+      let sum=0;
+      for(let i=0;i<item.length;i++){
+        if(item[i].read_time !=null){
+          console.log(typeof item[i].read_time)
+          sum += parseInt(item[i].read_time);
+        }
+      }
+     return sum;
+
     }
   },
   computed: {

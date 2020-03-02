@@ -43,6 +43,8 @@
             <tr>
               <th scope="col">#</th>
               <th scope="col" v-for="(title,index) in titles" :key="index">{{title.title}}</th>
+              <th scope="col">sumHours</th>
+
             </tr>
           </thead>
           <tbody>
@@ -65,7 +67,9 @@
                 <!-- <input v-if="item.edit"  type="email" class="form-control w-20 text-center" width="5"  id="time" aria-describedby="read_time">
                 <span v-else>{{ </span> -->
               </td>
-
+              <td class="">
+                <span class="btn btn-warning px-3">{{ sumHour(item) }}</span>
+              </td>
             </tr>
 
           </tbody>
