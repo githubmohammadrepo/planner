@@ -1,56 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
 
-    
-    <!-- Load required Bootstrap and BootstrapVue CSS -->
-    <link type="text/css" rel="stylesheet" href="./requrie/bootstrap.min.css" />
-    <link type="text/css" rel="stylesheet" href="./requrie/bootstrap-vue.css" />
-    
-    <!-- Load polyfills to support older browsers -->
-    <script src="//polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver" crossorigin="anonymous"></script>
-    
-    <!-- Load Vue followed by BootstrapVue -->
-    <script src="./vuejs.js"></script>
-    <script src="./requrie/bootstrap-vue.js"></script>
-    
-    <!-- Load the following for BootstrapVueIcons support -->
-    <script src="./requrie/bootstrap-vue-icon.js"></script>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+
+  <!-- Load required Bootstrap and BootstrapVue CSS -->
+  <link type="text/css" rel="stylesheet" href="./requrie/bootstrap.min.css" />
+  <link type="text/css" rel="stylesheet" href="./requrie/bootstrap-vue.css" />
+
+  <!-- Load polyfills to support older browsers -->
+  <script src="//polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver"
+    crossorigin="anonymous"></script>
+
+  <!-- Load Vue followed by BootstrapVue -->
+  <script src="./vuejs.js"></script>
+  <script src="./requrie/bootstrap-vue.js"></script>
+
+  <!-- Load the following for BootstrapVueIcons support -->
+  <script src="./requrie/bootstrap-vue-icon.js"></script>
 </head>
+
 <body>
 
-    <div class="container" id="app">
-
-
+  <div class="container" id="app">
+    <div class="row">
+      <div class="col-8">
         <table class="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col" >#</th>
-                <th scope="col" v-for="(title,index) in titles" :key="index">{{title.title}}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(item,index) in info" :key="index">
-                <th scope="row" >#</th>
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col" v-for="(title,index) in titles" :key="index">{{title.title}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item,index) in info" :key="index">
+              <th scope="row">#</th>
 
-                <td @dblclick="" v-for="(hour,index) in item" :key="index">
-                  <span v-if="hour.read_time">{{hour.read_time}}</span>
-                  <span v-else> - </span>
-                  <!-- <input v-if="item.edit"  type="email" class="form-control w-20 text-center" width="5"  id="time" aria-describedby="read_time">
-                  <span v-else>{{ </span> -->
-                </td>
-               
-              </tr>
-           
-            </tbody>
-          </table>
+              <td @dblclick="" v-for="(hour,index) in item" :key="index">
+                <span v-if="hour.read_time">{{hour.read_time}}</span>
+                <span v-else> - </span>
+                <!-- <input v-if="item.edit"  type="email" class="form-control w-20 text-center" width="5"  id="time" aria-describedby="read_time">
+                <span v-else>{{ </span> -->
+              </td>
+
+            </tr>
+
+          </tbody>
+        </table>
+      </div class="col-8">
+
+      <div class="col-4 pt-5">
+        <h3 class="text-primary text-center list-group-item">List Tasks</h3>
+        <ul class="list-group w-100">
+          <li class="list-group-item px-5" v-for="(title,index) in titles" :key="index">{{title.title}}</li>
+          <li class="list-group-item text-center text-primary">New</li>
+        </ul>
+      </div class="col-4">
     </div>
-    
-    <script src="./requrie/vue-resouce.js"></script>
-    <!-- custome script -->
-    <script src="./script.js"></script>
+  </div>
+
+  <script src="./requrie/vue-resouce.js"></script>
+  <!-- custome script -->
+  <script src="./script.js"></script>
 </body>
+
 </html>
