@@ -92,8 +92,8 @@ let v = new Vue({
      return sum;
 
     },
-    addNewTaskTitle: function(){
-        this.addTask=true;
+    toggleAddTask: function(){
+        this.addTask= !this.addTask;
     },
     saveTask: function(){
         // console.log(item)
@@ -104,7 +104,7 @@ let v = new Vue({
         this.$http.post('http://localhost/plan/saveTitle.php', data,{
           emulateJSON: true
       }).then(function (response) {
-
+          this.toggleAddTask()
           this.loading = false;
           console.log('res',response.body)
           this.titles.push(response.body);
@@ -112,6 +112,26 @@ let v = new Vue({
           console.log('Error!:', response.data);
           this.loading = false;
         });
+    },
+    removeTask: function(title){
+      let data = {
+        id: title.id
+      };
+      this.$http.post('http://localhost/plan/removeTitle.php', data,{
+        emulateJSON: true
+    }).then(function (response) {
+
+        this.loading = false;
+        console.log('res',response.body)
+        if(response.body.remove===true){
+          this.titles =this.titles.filter(function(item){
+           return item.id !=title.id;
+          })
+        }
+      }, function (response) {
+        console.log('Error!:', response.data);
+        this.loading = false;
+      });
     }
   },
   computed: {

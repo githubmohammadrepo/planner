@@ -22,35 +22,66 @@
   <!-- Load the following for BootstrapVueIcons support -->
   <script src="./requrie/bootstrap-vue-icon.js"></script>
 
-  <!-- custome style -->
-  <style>
-    input {
-      width: 10px !important;
-    }
+  <!-- google icons -->
+  <link rel="stylesheet" href="./requrie/google-icons.css">
+</head>
+<!-- custome style -->
+<style>
+  input {
+    width: 10px !important;
+  }
 
-    .focusid {
-      nav-index: 1;
-    }
+  .focusid {
+    nav-index: 1;
+  }
 
-    table thead tr th.bg-dark {
-      background-color: black !important;
-    }
+  table thead tr th.bg-dark {
+    background-color: black !important;
+  }
 
-    .hover {
-      cursor: pointer;
-    }
-    .radius{
-      border-radius: 50%;
-    }
-  </style>
+  .hover {
+    cursor: pointer;
+  }
+
+  .radius {
+    border-radius: 50%;
+  }
+
+  .rotate {
+
+    transform: rotate(90deg);
+
+
+    /* Legacy vendor prefixes that you probably don't need... */
+
+    /* Safari */
+    -webkit-transform: rotate(90deg);
+
+    /* Firefox */
+    -moz-transform: rotate(90deg);
+
+    /* IE */
+    -ms-transform: rotate(90deg);
+
+    /* Opera */
+    -o-transform: rotate(90deg);
+
+    /* Internet Explorer */
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+
+  }
+  .btn-hover:hover{
+    background-color: darkcyan;
+  }
+</style>
 </head>
 
 <body>
 
-  <div class="container" id="app">
+  <div class="container bg-dark" id="app">
     <div class="row">
-      <div class="col-8">
-        <table class="table table-striped">
+      <div class="col-8 pt-5">
+        <table class="table table-light table-striped">
           <thead>
             <tr>
               <th scope="col">#</th>
@@ -73,12 +104,14 @@
                     <input v-show="hour.edit" v-model="inputHour" type="text" class="form-control input text-center"
                       :class="{focusid: focus}" width="5" :placeholder="hour.read_time" aria-label="hour"
                       aria-describedby="basic-addon1">
-                    <span v-if="(hour.edit==true)" @click="removeHoure(item,hour)" class="btn btn-danger"
-                      id="basic-addon1">&empty;</span>
-                    <span v-if="(hour.edit==true)" @click="saveHoure(item,hour)" class="btn btn-primary"
-                      id="basic-addon1"> &#128190;</span>
+                    <span v-if="(hour.edit==true)" @click="removeHoure(item,hour)" class="btn btn-danger "
+                      id="basic-addon1">&#10006;
+                    </span>
+                    <span v-if="(hour.edit==true)" @click="saveHoure(item,hour)" class="btn btn-primary "
+                      id="basic-addon2"> &#10004;
+                    </span>
                     <span v-if="(hour.read_time && !hour.edit)" class="btn btn-info"
-                      id="basic-addon1">{{hour.read_time}}</span>
+                      id="basic-addon3">{{hour.read_time}}</span>
                     <span v-if="(!hour.read_time && !hour.edit)" class="btn btn-danger"> &dash; </span>
 
                   </div>
@@ -98,23 +131,31 @@
       <div class="col-4 pt-5">
         <h3 class="text-primary text-center list-group-item">List Tasks</h3>
         <ul class="list-group w-100">
-          <li class="list-group-item px-5" v-for="(title,index) in titles" :key="index">{{title.title}} <span class="btn btn-sm radius btn-danger px-2 float-right">-</span></li>
+          <li class="list-group-item px-3" v-for="(title,index) in titles" :key="index">
+            {{title.title}}
+            <!-- <span class="btn btn-sm radius btn-danger py-1 px-2 float-right">&#10006;</span> -->
+            <span @click="removeTask(title)" class="btn btn-sm radius  py-1 px-1 float-right btn-hover">&#9940;</span>
+            <span @click="editTask(title)" class="btn btn-sm radius py-1 px-1 float-right btn-hover rotate">&#9998;
+              <!-- <i class="material-icons">mode_edit</i> -->
+
+            </span>
+          </li>
           <li class="list-group-item text-center text-primary hover" @click="addNewTaskTitle()">
 
 
             <div v-if="addTask" class="input-group mb-3">
               <div class="input-group-prepend">
-                <span @click="removeTask(item,hour)" class="btn btn-danger" id="basic-addon1">&empty;</span>
+                <span @click="toggleAddTask()" class="btn btn-danger" id="basic-addon1">&#10006;</span>
               </div>
               <input type="email" v-model="saveTitle" class="form-control w-100 text-center" id="exampleInputEmail1"
                 aria-describedby="emailHelp" placeholder="Enter email">
 
               <div class="input-group-append">
-                <span @click="saveTask()" class="btn btn-primary" id="basic-addon1"> &#128190;</span>
+                <span @click="saveTask()" class="btn btn-primary" id="basic-addon1"> &#10004;</span>
               </div>
             </div>
 
-            <span v-else @click="addNewTaskTitle()" class="text-primary">New</span>
+            <span v-else @click="toggleAddTask()" class="text-primary">New</span>
 
 
 

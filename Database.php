@@ -228,7 +228,24 @@ class Databasep
             $msg=" Database problem, please contact site admin ";
         }
     }
+    public function removeTitle($id)
+        {
+            if($id==0){
+                
+            }else{
+                $sql=$this->pdo_conn->prepare("DELETE FROM `titles`  WHERE id=:id");
+            }
+            $sql->bindParam(':id', $id, PDO::PARAM_INT, 5);
 
+            if ($sql->execute()) {
+                echo(json_encode(['remove'=>true]));
+
+            }// End of if profile is ok
+            else {
+                print_r($sql->errorInfo()); // if any error is there it will be posted
+                $msg=" Database problem, please contact site admin ";
+            }
+        }
     public function ReadOriginal()
     {
         if (!$this->isConnect) {
