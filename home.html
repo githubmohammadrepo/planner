@@ -30,6 +30,9 @@
     .focusid{
       nav-index: 1;
     }
+    table thead tr th.bg-dark{
+      background-color: black !important;
+    }
   </style>
 </head>
 
@@ -42,8 +45,8 @@
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col" v-for="(title,index) in titles" :key="index">{{title.title}}</th>
-              <th scope="col">sumHours</th>
+              <th scope="col" v-for="(title,index) in titles" :key="index"><span class="text-dark">{{title.title}}</span></th>
+              <th scope="col"><span class="text-primary border-bottom">sumHours</span></th>
 
             </tr>
           </thead>
@@ -58,7 +61,8 @@
 
                   <div class="input-group mb-3">
                     <input v-show="hour.edit" v-model="inputHour" type="text"  class="form-control input text-center" :class="{focusid: focus}" width="5" :placeholder="hour.read_time" aria-label="hour" aria-describedby="basic-addon1">
-                    <span v-if="(hour.edit==true)" @click="saveHoure(item,hour)" class="btn btn-primary" id="basic-addon1">save</span>
+                    <span v-if="(hour.edit==true)" @click="removeHoure(item,hour)" class="btn btn-danger" id="basic-addon1">&empty;</span>
+                    <span v-if="(hour.edit==true)" @click="saveHoure(item,hour)" class="btn btn-primary" id="basic-addon1">	&#128190;</span>
                     <span v-if="(hour.read_time && !hour.edit)" class="btn btn-info" id="basic-addon1">{{hour.read_time}}</span>
                     <span v-if="(!hour.read_time && !hour.edit)" class="btn btn-danger"> &dash; </span>
 

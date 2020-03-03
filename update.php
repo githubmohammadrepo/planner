@@ -1,9 +1,6 @@
 <?php
-require_once('./vendor/autoload.php');
-use Carbon\Carbon;
 
 require_once('./Database.php');
-require_once('./Task.php');
 
 //get infomations
 $id = $_POST['id'];

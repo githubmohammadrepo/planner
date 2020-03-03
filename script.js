@@ -56,6 +56,27 @@ let v = new Vue({
       });
     
     },
+    removeHoure: function(item,hour){
+      let itemIndex = this.info[this.info.indexOf(item)][this.info[this.info.indexOf(item)].indexOf(hour)];
+      console.log('Before_itemIndex',itemIndex)
+      // console.log(item)
+      // console.log(hour)
+      let data = {
+        id: hour.id
+      };
+      this.$http.post('http://localhost/plan/remove.php', data,{
+        emulateJSON: true
+    }).then(function (response) {
+        hour.edit = false;
+
+        this.loading = false;
+        console.log('res',response.body)
+        itemIndex.read_time =(response.body.read_time);
+      }, function (response) {
+        console.log('Error!:', response.data);
+        this.loading = false;
+      });
+    },
     showHourTime: function (hour) {
       return (hour.read_time != null) && (hour.edit == true)
     },
@@ -109,7 +130,7 @@ let v = new Vue({
       // response.body.forEach(element => {
       //      this.titles.push(element[0]);
       //  });
-
+      console.log(response.body)
       response.body.forEach(outer => {
         // console.log('out',outer)
         for (let index = 0; index < this.titles.length; index++) {

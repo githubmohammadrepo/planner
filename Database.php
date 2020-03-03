@@ -41,7 +41,6 @@ class Databasep
                 $stmt->execute(array());
                 if ($stmt->RowCount() == 0) {
                     // Do stuff when no results are found (without an error)
-                    echo 'something';
                 } else {
                     $Results = $stmt->FetchAll(PDO::FETCH_ASSOC);
                     foreach ($Results as $key => $value) {
@@ -211,8 +210,23 @@ class Databasep
         }
     }
 
-    public function Delete()
+    public function Delete($id)
     {
+        if($id==0){
+            
+        }else{
+            $sql=$this->pdo_conn->prepare("DELETE FROM `tasks`  WHERE id=:id");
+        }
+        $sql->bindParam(':id', $id, PDO::PARAM_INT, 5);
+
+        if ($sql->execute()) {
+            echo(json_encode(['remove'=>true]));
+
+        }// End of if profile is ok
+        else {
+            print_r($sql->errorInfo()); // if any error is there it will be posted
+            $msg=" Database problem, please contact site admin ";
+        }
     }
 
     public function ReadOriginal()
@@ -227,7 +241,7 @@ class Databasep
                 $stmt->execute(array());
                 if ($stmt->RowCount() == 0) {
                     // Do stuff when no results are found (without an error)
-                    echo 'something';
+                    // echo 'something';
                 } else {
                     $Results = $stmt->FetchAll(PDO::FETCH_ASSOC);
                     foreach ($Results as $key => $value) {
@@ -305,7 +319,7 @@ class Databasep
                 $stmt->execute(array());
                 if ($stmt->RowCount() == 0) {
                     // Do stuff when no results are found (without an error)
-                    echo 'something';
+                    // echo 'something';
                 } else {
                     $Results = $stmt->FetchAll(PDO::FETCH_ASSOC);
                     
