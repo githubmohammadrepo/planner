@@ -262,6 +262,36 @@ class Databasep
         }
     }
     
+
+    public function checkRowExists($now){
+        if (!$this->isConnect) {
+            try {
+
+                // Prepare the statement
+                $stmt =  $this->pdo_conn->prepare("Select id From tasks WHERE created=:now Order By Id ASC ");
+                print_r($stmt);
+                // You can also use bindparams, I like to use execute and pass and array so it is shorter
+                $stmt->execute(array(':now'=>$now));
+                if ($stmt->RowCount() == 0) {
+                    // Do stuff when no results are found (without an error)
+                    echo 'something';
+                } else {
+                    $Results = $stmt->FetchAll(PDO::FETCH_ASSOC);
+                    
+                    return (($Results));
+                }
+            
+    
+                // Catch any exceptions and put the error into $e
+            } catch (Exception $e) {
+                // Echo the error we got - you should only output errors when debugging
+                // echo $e->GetMessage();
+                echo '<hr>';
+                echo 'error Reading';
+                echo '</hr>';
+            }
+        }
+    }
     
     
         public function Delete($id)
