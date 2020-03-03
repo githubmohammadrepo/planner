@@ -10,8 +10,9 @@ let v = new Vue({
     titles: [],
     focus: false,
     inputHour: null,
-    addTask:false,
-    saveTitle:null
+    addTask: false,
+    saveTitle: null,
+    taskTilte: null
   },
   methods: {
     doubleClickForEdit: function (item) {
@@ -33,9 +34,9 @@ let v = new Vue({
       hour.edit = !hour.edit;
 
     },
-    saveHoure(item,hour) {
+    saveHoure(item, hour) {
       let itemIndex = this.info[this.info.indexOf(item)][this.info[this.info.indexOf(item)].indexOf(hour)];
-      console.log('Before_itemIndex',itemIndex)
+      console.log('Before_itemIndex', itemIndex)
       // console.log(item)
       // console.log(hour)
       let data = {
@@ -43,36 +44,36 @@ let v = new Vue({
         title_id: hour.title_id,
         read_time: this.inputHour
       };
-      this.$http.post('http://localhost/plan/update.php', data,{
+      this.$http.post('http://localhost/plan/update.php', data, {
         emulateJSON: true
-    }).then(function (response) {
+      }).then(function (response) {
         hour.edit = false;
 
         this.loading = false;
-        console.log('res',response.body)
-        itemIndex.read_time =(response.body.read_time);
+        console.log('res', response.body)
+        itemIndex.read_time = (response.body.read_time);
       }, function (response) {
         console.log('Error!:', response.data);
         this.loading = false;
       });
-    
+
     },
-    removeHoure: function(item,hour){
+    removeHoure: function (item, hour) {
       let itemIndex = this.info[this.info.indexOf(item)][this.info[this.info.indexOf(item)].indexOf(hour)];
-      console.log('Before_itemIndex',itemIndex)
+      console.log('Before_itemIndex', itemIndex)
       // console.log(item)
       // console.log(hour)
       let data = {
         id: hour.id
       };
-      this.$http.post('http://localhost/plan/remove.php', data,{
+      this.$http.post('http://localhost/plan/remove.php', data, {
         emulateJSON: true
-    }).then(function (response) {
+      }).then(function (response) {
         hour.edit = false;
 
         this.loading = false;
-        console.log('res',response.body)
-        itemIndex.read_time =(response.body.read_time);
+        console.log('res', response.body)
+        itemIndex.read_time = (response.body.read_time);
       }, function (response) {
         console.log('Error!:', response.data);
         this.loading = false;
@@ -82,64 +83,87 @@ let v = new Vue({
       return (hour.read_time != null) && (hour.edit == true)
     },
 
-    sumHour: function(item){
-      let sum=0;
-      for(let i=0;i<item.length;i++){
-        if(item[i].read_time !=null){
+    sumHour: function (item) {
+      let sum = 0;
+      for (let i = 0; i < item.length; i++) {
+        if (item[i].read_time != null) {
           sum += parseInt(item[i].read_time);
         }
       }
-     return sum;
+      return sum;
 
     },
-    toggleAddTask: function(){
-        this.addTask= !this.addTask;
+    toggleAddTask: function () {
+      this.addTask = !this.addTask;
     },
-    saveTask: function(){
-        // console.log(item)
-        // console.log(hour)
-        let data = {
-          title: this.saveTitle
-        };
-        this.$http.post('http://localhost/plan/saveTitle.php', data,{
-          emulateJSON: true
+    saveTask: function () {
+      // console.log(item)
+      // console.log(hour)
+      let data = {
+        title: this.saveTitle
+      };
+      this.$http.post('http://localhost/plan/saveTitle.php', data, {
+        emulateJSON: true
       }).then(function (response) {
-          this.toggleAddTask()
-          this.loading = false;
-          console.log('res',response.body)
-          this.titles.push(response.body);
-        }, function (response) {
-          console.log('Error!:', response.data);
-          this.loading = false;
-        });
+        this.toggleAddTask()
+        this.loading = false;
+        console.log('res', response.body)
+        this.titles.push(response.body);
+      }, function (response) {
+        console.log('Error!:', response.data);
+        this.loading = false;
+      });
     },
-    removeTask: function(title){
+    removeTask: function (title) {
       let data = {
         id: title.id
       };
-      this.$http.post('http://localhost/plan/removeTitle.php', data,{
+      this.$http.post('http://localhost/plan/removeTitle.php', data, {
         emulateJSON: true
-    }).then(function (response) {
+      }).then(function (response) {
 
         this.loading = false;
-        console.log('res',response.body)
-        if(response.body.remove===true){
-          this.titles =this.titles.filter(function(item){
-           return item.id !=title.id;
+        console.log('res', response.body)
+        if (response.body.remove === true) {
+          this.titles = this.titles.filter(function (item) {
+            return item.id != title.id;
           })
         }
       }, function (response) {
         console.log('Error!:', response.data);
         this.loading = false;
       });
-    }
+    },
+    editTask: function (title) {
+      title.edit = true;
+      // console.log('Before_itemIndex', itemIndex)
+      // console.log(item)
+      // console.log(hour)
+      let data = {
+        id: title.id,
+        title: this.taskTilte
+      };
+      console.log('data',data)
+      this.$http.post('http://localhost/plan/updateTitle.php', data, {
+        emulateJSON: true
+      }).then(function (response) {
+        title.edit = false;
+        title.title = response.body.title;
+        this.loading = false;
+        console.log('res', response.body)
+        itemIndex.read_time = (response.body.read_time);
+      }, function (response) {
+        console.log('Error!:', response.data);
+        this.loading = false;
+      });
+    },
+
   },
   computed: {
 
   },
 
   mounted: function () {
-
   },
   created: function () {
 
@@ -147,9 +171,12 @@ let v = new Vue({
 
     // GET /someUrl
     this.$http.get('http://localhost/plan/show.php').then(response => {
+      response.body.forEach(element => {
+          element.edit = false;
+      });
 
-      this.titles = response.body
-
+      this.titles = response.body;
+      console.log(response.body)
       // console.log(response)
       //   this.info = response.body;
     }, response => {
@@ -186,7 +213,7 @@ let v = new Vue({
 
           outer[index].edit = false;
 
-          
+
 
         }
         let spam = Array();
@@ -242,7 +269,7 @@ let v = new Vue({
 
           }
           // console.log('spam',spam)
-          outer[index].title_id = index+1;
+          outer[index].title_id = index + 1;
         }
         // console.log('888888888888888');
         for (const key in spam) {

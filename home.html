@@ -78,7 +78,7 @@
 
 <body>
 
-  <div class="container bg-dark" id="app">
+  <div class="container bg-dark mb-5 pb-3" id="app">
     <div class="row">
       <div class="col-8 pt-5">
         <table class="table table-light table-striped">
@@ -132,13 +132,20 @@
         <h3 class="text-primary text-center list-group-item">List Tasks</h3>
         <ul class="list-group w-100">
           <li class="list-group-item px-3" v-for="(title,index) in titles" :key="index">
-            {{title.title}}
+
+            <input v-if="title.edit==true" type="email" v-model="taskTilte" class="form-control w-100 text-center" id="exampleInputEmail1"
+                aria-describedby="emailHelp" placeholder="Enter email">
+
+              <span v-else>{{title.title}}</span>
+
             <!-- <span class="btn btn-sm radius btn-danger py-1 px-2 float-right">&#10006;</span> -->
             <span @click="removeTask(title)" class="btn btn-sm radius  py-1 px-1 float-right btn-hover">&#9940;</span>
-            <span @click="editTask(title)" class="btn btn-sm radius py-1 px-1 float-right btn-hover rotate">&#9998;
+            
+            <span @click="editTask(title)" v-if="title.edit==true"  id="update" class="btn btn-sm radius py-1 px-1 float-right btn-hover">&#10004;</span>
+            <span @click="title.edit = true" v-else  id="edit" class="btn btn-sm radius py-1 px-1 float-right btn-hover rotate">&#9998;</span>
               <!-- <i class="material-icons">mode_edit</i> -->
 
-            </span>
+            
           </li>
           <li class="list-group-item text-center text-primary hover" @click="addNewTaskTitle()">
 

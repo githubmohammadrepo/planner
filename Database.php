@@ -180,7 +180,59 @@ class Databasep
             $msg=" Database problem, please contact site admin ";
         }
     }
+    public function updateTitle($id,$title)
+    {
 
+        ///////// End of data collection ///
+        // error_reporting(E_ERROR | E_PARSE | E_CORE_ERROR);
+        // $sql = UPDATE `tasks` SET `title_id`=3,`read_time`=4,`created`=now() WHERE id=12
+        if($id==0){
+            $sql=$this->pdo_conn->prepare("UPDATE `tasks` SET `title_id`=:title_id,`read_time`=:read_time,`created`=now() WHERE id=:id");
+        }else{
+            $sql=$this->pdo_conn->prepare("UPDATE `titles` SET `id`=:id,`title`=:title WHERE id=:id");
+        }
+        $sql->bindParam(':id', $id,PDO::PARAM_INT, 5);
+        $sql->bindParam(':title', $title,PDO::PARAM_STR, 15);
+
+        if ($sql->execute()) {
+            echo(json_encode(($this->FindAllTitleById($id))));
+
+        }// End of if profile is ok
+        else {
+            print_r($sql->errorInfo()); // if any error is there it will be posted
+            $msg=" Database problem, please contact site admin ";
+        }
+    }
+    public function FindAllTitleById($id)
+    {
+        if (!$this->isConnect) {
+            try {
+    
+                    // Prepare the statement
+                $stmt =  $this->pdo_conn->prepare("Select id,title From titles WHERE ID=$id    ");
+        
+                // You can also use bindparams, I like to use execute and pass and array so it is shorter
+                $stmt->execute(array());
+                if ($stmt->RowCount() == 0) {
+                    // Do stuff when no results are found (without an error)
+                    echo 'something';
+                } else {
+                    $Results = $stmt->FetchAll(PDO::FETCH_ASSOC);
+                        
+                    return (($Results[0]));
+                }
+                
+        
+                // Catch any exceptions and put the error into $e
+            } catch (Exception $e) {
+                // Echo the error we got - you should only output errors when debugging
+                // echo $e->GetMessage();
+                echo '<hr>';
+                echo 'error Reading';
+                echo '</hr>';
+            }
+        }
+    }
     public function Insert($title_id,$read_time)
     {
         $sql = "INSERT INTO tasks ( title_id,read_time ) VALUES (:title_id, :read_time)";
