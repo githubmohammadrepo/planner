@@ -10,7 +10,8 @@ let v = new Vue({
     titles: [],
     focus: false,
     inputHour: null,
-    count: 0
+    addTask:false,
+    saveTitle:null
   },
   methods: {
     doubleClickForEdit: function (item) {
@@ -90,6 +91,27 @@ let v = new Vue({
       }
      return sum;
 
+    },
+    addNewTaskTitle: function(){
+        this.addTask=true;
+    },
+    saveTask: function(){
+        // console.log(item)
+        // console.log(hour)
+        let data = {
+          title: this.saveTitle
+        };
+        this.$http.post('http://localhost/plan/saveTitle.php', data,{
+          emulateJSON: true
+      }).then(function (response) {
+
+          this.loading = false;
+          console.log('res',response.body)
+          this.titles.push(response.body);
+        }, function (response) {
+          console.log('Error!:', response.data);
+          this.loading = false;
+        });
     }
   },
   computed: {

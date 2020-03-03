@@ -131,7 +131,7 @@ class Databasep
             try {
 
                 // Prepare the statement
-                $stmt =  $this->pdo_conn->prepare("Select id,title From titles  ");
+                $stmt =  $this->pdo_conn->prepare("Select id,title From titles Order By Id ASC ");
     
                 // You can also use bindparams, I like to use execute and pass and array so it is shorter
                 $stmt->execute(array());
@@ -335,6 +335,34 @@ class Databasep
                 echo 'error Reading';
                 echo '</hr>';
             }
+        }
+    }
+
+    // title functions
+    public function saveTitle($title){
+        $sql = "INSERT INTO titles ( title ) VALUES (:title)";
+        $pdo_statement = $this->pdo_conn->prepare($sql);
+        $result = $pdo_statement->execute(
+            array(
+                ':title' => htmlspecialchars(trim($title))
+            )
+        );
+        // $result = $pdo_statement->execute(array(':read_time' => htmlspecialchars(trim($_POST['read_time'])), ':description' => $_POST['description'], ':post_at' => $_POST['post_at']));
+        if (!empty($result)) {
+            // header('location:index.php');
+            $stmt= $this->pdo_conn->prepare("SELECT * FROM `titles` Order By id DESC LIMIT 1;");
+            // You can also use bindparams, I like to use execute and pass and array so it is shorter
+            $stmt->execute(array());
+            if ($stmt->RowCount() == 0) {
+                // Do stuff when no results are found (without an error)
+                echo 'something';
+            } else {
+                $Results = $stmt->FetchAll(PDO::FETCH_ASSOC);
+                print_r(json_encode($Results[0]));
+            }
+        
+        } else {
+            echo 'not inserted';
         }
     }
 }
