@@ -157,6 +157,32 @@ let v = new Vue({
         this.loading = false;
       });
     },
+    addNewHour: function () {
+      // console.log('Before_itemIndex', itemIndex)
+      // console.log(item)
+      // console.log(hour)
+      let titleIds = Array();
+      for (const key in this.titles) {
+        titleIds.push(this.titles[key].id);
+      }
+      
+      let data = {
+        newHour: 'newhour',
+        ids: titleIds
+      };
+
+      this.$http.post('http://localhost/plan/update.php', data, {
+        emulateJSON: true
+      }).then(function (response) {
+
+        this.loading = false;
+        console.log('res', response.body)
+        
+      }, function (response) {
+        console.log('Error!:', response.data);
+        this.loading = false;
+      });
+    }
 
   },
   computed: {

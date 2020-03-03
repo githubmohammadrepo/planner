@@ -261,8 +261,10 @@ class Databasep
             echo 'not inserted';
         }
     }
-
-    public function Delete($id)
+    
+    
+    
+        public function Delete($id)
     {
         if($id==0){
             

@@ -70,6 +70,11 @@
     filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 
   }
+
+  .newhour-hover:hover{
+    background-color: rgb(209, 209, 238);
+    color:darkred !important;
+  }
   .btn-hover:hover{
     background-color: darkcyan;
   }
@@ -121,6 +126,14 @@
               </td>
               <td class="">
                 <span class="btn btn-warning px-3">{{ sumHour(item) }}</span>
+              </td>
+            </tr>
+
+
+            <tr >
+              <td>#</td>
+              <td :colspan="(titles.length +1)" class="text-right">
+                <span @click="addNewHour()" class="btn btn-sm px-3 text-primary  newhour-hover">New</span>
               </td>
             </tr>
 
